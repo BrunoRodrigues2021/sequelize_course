@@ -1,13 +1,17 @@
-'use strict';
-const {
-    Model
-} = require('sequelize');
+const {Model} = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
     class Classes extends Model {
-        associate(models) {
-            Classes.hasMany(models.Enrollments);
-            Classes.belongsTo(models.People);
-            Classes.belongsTo(models.Levels);
+        static associate(models) {
+            this.hasMany(models.Enrollments, {
+                foreignKey: 'class_id'
+            });
+            this.belongsTo(models.People, {
+                foreignKey: 'instructor_id'
+            });
+            this.belongsTo(models.Levels, {
+                foreignKey: 'level_id'
+            });
         }
     }
 
@@ -15,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         start_date: DataTypes.DATEONLY
     }, {
         sequelize,
-        modelName: 'classes',
+        modelName: 'Classes',
     });
 
     return Classes;

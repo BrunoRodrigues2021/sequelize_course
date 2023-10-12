@@ -1,12 +1,14 @@
-'use strict';
-const {
-    Model
-} = require('sequelize');
+const {Model} = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
     class Enrollments extends Model {
-        associate(models) {
-            Enrollments.belongsTo(models.People);
-            Enrollments.belongsTo(models.Classes);
+        static associate(models) {
+            this.belongsTo(models.People, {
+                foreignKey: 'student_id'
+            });
+            this.belongsTo(models.Classes, {
+                foreignKey: 'class_id'
+            });
         }
     }
 
@@ -14,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         status: DataTypes.STRING
     }, {
         sequelize,
-        modelName: 'enrollments',
+        modelName: 'Enrollments',
     });
 
     return Enrollments;
