@@ -1,0 +1,16 @@
+{
+  "development": {
+    "username": "root",
+    "password": "root",
+    "database": "english_school_dev",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "root",
+    "database": "english_school_prod",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
