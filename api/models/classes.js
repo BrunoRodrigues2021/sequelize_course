@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         start_date: DataTypes.DATEONLY
     }, {
         sequelize,
+        paranoid: true,
         modelName: 'Classes',
     });
 
