@@ -13,7 +13,14 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     People.init({
-        name: DataTypes.STRING,
+        name: {
+            type: DataTypes.STRING,
+            validate: {
+                nameValidator: function(name) {
+                    if (name.length < 3) throw new Error('Name is too short. The name should be bigger than 3 characters');
+                }
+            }
+        },
         active: DataTypes.BOOLEAN,
         mail: {
             type: DataTypes.STRING,
