@@ -4,8 +4,17 @@ class PeopleController {
 
     static async getAllPeople(req, res) {
         try {
-            const people = await database.People.findAll();
+            const people = await database.People.scope('all').findAll();
             return res.status(200).json(people);
+        } catch (error) {
+            return res.status(500).json(error.message);
+        }
+    }
+
+    static async getAllActivePeople(req, res) {
+        try {
+            const activePeople = await database.People.findAll();
+            return res.status(200).json(activePeople);
         } catch (error) {
             return res.status(500).json(error.message);
         }
