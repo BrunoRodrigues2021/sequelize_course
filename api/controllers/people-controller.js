@@ -77,6 +77,22 @@ class PeopleController {
         }
     }
 
+    static async getAllEnrollment(req, res) {
+        const {studentId} = req.params;
+        try {
+            const people = await database.People.findOne({
+                where: {
+                    id: Number(studentId)
+                }
+            });
+            const enrollments = await people.getEnrolledClasses();
+
+            return res.status(200).json(enrollments);
+        } catch (error) {
+            return res.status(500).json(error.message);
+        }
+    }
+
     static async getEnrollment(req, res) {
         const {studentId, enrollmentId} = req.params;
         try {
@@ -137,8 +153,6 @@ class PeopleController {
             return res.status(500).json(error.message);
         }
     }
-
-
 }
 
 module.exports = PeopleController;
