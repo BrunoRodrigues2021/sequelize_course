@@ -12,6 +12,7 @@ router.post('/people/:id/restore', PeopleController.restorePerson);
 router.delete('/people/:id', PeopleController.deletePerson);
 router.get('/people/:studentId/enrollment', PeopleController.getAllEnrollment);
 router.get('/people/enrollment/:classId/confirmed', PeopleController.getAllEnrollmentByClass);
+router.get('/people/enrollment/class/crowded', PeopleController.getCrowdedClasses);
 router.get('/people/:studentId/enrollment/:enrollmentId', PeopleController.getEnrollment);
 router.post('/people/:studentId/enrollment', PeopleController.createEnrollment);
 router.put('/people/:studentId/enrollment/:enrollmentId', PeopleController.updateEnrollment);

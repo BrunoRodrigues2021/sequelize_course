@@ -1,4 +1,5 @@
 const database = require('../models');
+const Sequelize = require('sequelize');
 
 class PeopleController {
 
@@ -106,6 +107,24 @@ class PeopleController {
             });
 
             return res.status(200).json(enrollments);
+        } catch (error) {
+            return res.status(500).json(error.message);
+        }
+    }
+
+    static async getCrowdedClasses(req, res) {
+        const classCapacity = 2;
+        try {
+            const crowdedClasses = await database.Enrollments.findAndCountAll({
+               where: {
+                   status: 'confirmed'
+               },
+                attributes: ['class_id'],
+                group: ['class_id'],
+                having: Sequelize.literal(`COUNT(class_id) >= ${classCapacity}`)
+            });
+
+            return res.status(200).json(crowdedClasses.count);
         } catch (error) {
             return res.status(500).json(error.message);
         }
