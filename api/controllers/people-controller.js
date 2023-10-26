@@ -114,11 +114,12 @@ class PeopleController {
 
     static async getCrowdedClasses(req, res) {
         const classCapacity = 2;
+
         try {
             const crowdedClasses = await database.Enrollments.findAndCountAll({
-               where: {
-                   status: 'confirmed'
-               },
+                where: {
+                    status: 'confirmed'
+                },
                 attributes: ['class_id'],
                 group: ['class_id'],
                 having: Sequelize.literal(`COUNT(class_id) >= ${classCapacity}`)
@@ -186,6 +187,36 @@ class PeopleController {
                 }
             });
             return res.status(200).json({message: `enrollment id: ${enrollmentId} deleted`});
+        } catch (error) {
+            return res.status(500).json(error.message);
+        }
+    }
+
+    static async cancelPersonAndEnrollmentsRelated(req, res) {
+        const {id} = req.params;
+
+        try {
+            database.sequelize.transaction(async transaction => {
+                await database.People.update({active: false},
+                    {
+                        where: {
+                            id: Number(id)
+                        }
+                    },
+                    {transaction}
+                );
+                await database.Enrollments.update({status: 'canceled'},
+                    {
+                        where: {
+                            student_id: Number('x')
+                        }
+                    },
+                    {transaction}
+                );
+            });
+
+
+            return res.status(200).json({message: `enrollments relating to the student id: ${id} canceled`});
         } catch (error) {
             return res.status(500).json(error.message);
         }
