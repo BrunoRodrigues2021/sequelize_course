@@ -5,12 +5,12 @@ const Op = Sequelize.Op;
 class ClassController {
 
     static async getAllClasses(req, res) {
-        const {start_date, end_date} = req.query;
+        const {startDate, endDate} = req.query;
         const where = {};
 
-        if (start_date && end_date) {
+        if (startDate && endDate) {
             where.start_date = {
-                [Op.between]: [start_date, end_date]
+                [Op.between]: [startDate, endDate]
             }
         }
 
